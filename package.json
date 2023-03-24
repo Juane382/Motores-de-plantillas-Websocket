@@ -5,7 +5,7 @@
   "description": "",
   "main": "./src/servidor.js",
   "scripts": {
-    "test": "nodemon -e 'js,html' servidor.js"
+    "test": "nodemon -e 'js,html,handlebars' servidor.js"
   },
   "repository": {
     "type": "git",
