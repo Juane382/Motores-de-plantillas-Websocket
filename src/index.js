@@ -1,5 +1,8 @@
 const ServerSocket = io('http://localhost:8080/')
 
+
+const plantillaProductos = ``
+
 const btnPresioname = document.querySelector('#btnPresioname')
 
 if(btnPresioname){
@@ -12,10 +15,13 @@ if(btnPresioname){
 
 }
 
-ServerSocket.on('mesajito', datosAdjuntos => {
-    console.log(datosAdjuntos)
-})
 
-ServerSocket.on('alerta', datosAdjuntos => {
-    alert(datosAdjuntos)
+
+ServerSocket.on('actualizarProductos', datosAdjuntos => {
+   const divHome = document.querySelector('#home')
+   console.log('lista:' + datosAdjuntos)
+   if(divHome){
+    divHome.innerHTML = JSON.stringify(datosAdjuntos)
+    
+   }
 })

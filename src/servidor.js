@@ -17,20 +17,28 @@ const httpServer = app.listen(8080)
 
 const io = new SocketIOServer(httpServer)
 
-io.on('connection', clienteSocket => {
+io.on('connection',async  clienteSocket => {
     console.log(`nuevo cliete conectado. Socket id:  ${clienteSocket.id}`)
-    clienteSocket.emit('mesajito', { hola: 'HolaMundo' })
-    clienteSocket.emit('alerta', 'hola que onda!')
-    clienteSocket.on('mensajeDelCliente',datosAdjuntos => {
+    //clienteSocket.emit('mesajito', { hola: 'HolaMundo' })
+    //clienteSocket.emit('actualizarProductos', listaProductos)
+    io.sockets.emit('actualizarProductos', await productos.getProducts())
+
+    clienteSocket.on('mensajeDelCliente', async datosAdjuntos => {
         console.log(`${clienteSocket.id} dice:`)
         console.log(datosAdjuntos)
+
+        
     })
 })
 
 app.get('/', async (req, res) => {
-    const mensajes = await productos.getProducts()
-    res.render('realTimeProducts', {
-        hayMensajes: mensajes.lenght > 0,
-        mensajes
+    const listaProductos = await productos.getProducts()
+    //console.log(listaProductos)
+    res.render('home', {
+        hayProductos: listaProductos.lenght > 0,
+        listaProductos
+
     })
+
+
 })
